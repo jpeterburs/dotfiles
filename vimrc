@@ -1,86 +1,79 @@
+call plug#begin('~/.vim/plugged')
+
+Plug 'airblade/vim-gitgutter' " display git diff in the sign column
+Plug 'arcticicestudio/nord-vim' " color scheme"
+Plug 'christoomey/vim-tmux-navigator' " seamless vim to tmux integration
+Plug 'dense-analysis/ale' " asynchronous lint engine
+Plug 'ervandew/supertab' " tab auto-completion
+Plug 'jiangmiao/auto-pairs' " insert or delete brackets, parens, quotes in pair
+Plug 'jlcrochet/vim-rbs' " Ruby RBS support
+Plug 'junegunn/fzf' " fuzzy finder
+Plug 'kchmck/vim-coffee-script' " coffee script support
+Plug 'mileszs/ack.vim' " search files
+Plug 'scrooloose/nerdtree' " file system explorer sidebar
+Plug 'shime/vim-livedown' " instant preview of md files in browser
+Plug 'vim-airline/vim-airline' " style your vim with ease
+Plug 'tpope/vim-endwise' " helps to end certain structures automatically
+Plug 'tpope/vim-rails' " massive plugin for working with ruby on rails
+Plug 'Xuyuanp/nerdtree-git-plugin' " addon for nerdree for git integration
+
+call plug#end()
+
 if (has("termguicolors"))
   set termguicolors
 endif
 
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 let mapleader='_'
 
 let g:loaded_netrw=1
 let g:loaded_netrwPlugin=1
 
-set expandtab
-set hlsearch
-set ic
-set list
-set nocompatible
-set noeol
+set expandtab                     " use spaces, not tabs
+set hlsearch                      " activate search result highlighting
+set ic                            " case insensitivity on
+set list                          " Show invisible characters
+set nocompatible                  " be iMproved
+set noeol                         " no freakin' end of line
 set noshowmode
-set nowrap
-set number
-set showcmd
+set nowrap                        " don't wrap lines
+set number                        " set line-number
+set showcmd                       " show <leader>-commands
 set smartindent
-set splitbelow
-set splitright
+set splitbelow                    " split opens below
+set splitright                    " split opens right
 set wildmenu
 
-set backspace=indent,eol,start
-set clipboard=unnamed
+set backspace=indent,eol,start    " backspace through everything in insert mode
+set clipboard=unnamed             " use system clipboard"
+set colorcolumn=80,120
 set encoding=utf-8
-set laststatus=2
+set laststatus=2                  " Always show status bar
 set listchars=nbsp:¬,extends:»,precedes:«,trail:•
-set shiftwidth=2
-set softtabstop=2
+set shiftwidth=2                  " an autoindent (with <<) is two spaces
+set softtabstop=2                 " control how many columns vim uses when you hit Tab in insert mode
 set t_Co=256
-set tabstop=2
+set tabstop=2                     " a tab is two spaces
 set term=xterm-256color
 set termencoding=utf-8
-set timeoutlen=3000
-set ttymouse=xterm2
+set timeoutlen=3000               " set length of leader timeout
+set ttymouse=xterm2               " tmux knows the extended mouse mode
 
 set mouse+=a
 set wildignore+=tags,doc,tmp,log
 
-set guioptions-=r
-set guioptions-=L
+set guioptions-=r                 " remove right-hand scroll bar
+set guioptions-=L                 " remove left-hand scroll bar
 
-set backupdir^=~/.vim/_backup//
-set directory^=~/.vim/_temp//
+set backupdir^=~/.vim/_backup//   " where to put backup files.
+set directory^=~/.vim/_temp//     " where to put swap files.
 
-set rtp+=~/.vim/bundle/Vundle.vim
-
-filetype off
-
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'L9'
-
-Plugin 'airblade/vim-gitgutter'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'ervandew/supertab'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'junegunn/fzf'
-Plugin 'leafOfTree/vim-vue-plugin'
-Plugin 'lervag/vimtex'
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'mileszs/ack.vim'
-Plugin 'neomake/neomake'
-Plugin 'rakr/vim-one'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
-Plugin 'shime/vim-livedown'
-Plugin 'tpope/vim-endwise'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-markdown'
-Plugin 'tpope/vim-rails'
-Plugin 'tpope/vim-surround'
-Plugin 'tribela/vim-transparent'
-Plugin 'vim-airline/vim-airline'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-call vundle#end()
-
-filetype plugin indent on
+command Pry :normal orequire 'pry'; binding.pry<ESC>
+command PryHaml :normal o- require 'pry'; binding.pry<ESC>
+command PryRspec :normal ofit { require 'pry'; binding.pry}<ESC>
+command Debugger :normal odebugger<ESC>
 
 nnoremap <C-Up> :m-2<CR>
 nnoremap <C-Down> :m+<CR>
@@ -98,7 +91,11 @@ highlight GitGutterChange ctermfg=yellow
 highlight GitGutterDelete ctermfg=red
 highlight GitGutterChangeDelete ctermfg=yellow
 
+let g:loaded_netrw=1
+let g:loaded_netrwPlugin=1
+
 syntax on
+
 
 " airblade/vim-gitgutter
 
@@ -113,30 +110,30 @@ let g:gitgutter_sign_modified_removed = '~'
 
 let g:gitgutter_override_sign_column_highlight = 0
 
+" dense-analysis/ale
 
-" junegunn/fzf.vim
+map <silent> <C-X> :ALEToggle<CR>
+let g:ale_linters = {
+\ 'ruby': ['rubocop'],
+\ 'python': ['pylint'],
+\ 'tex': ['lacheck']
+\}
 
-map <C-T> :FZF<CR>
+
+" junegunn/fzf
+
+map <silent> <C-T> :FZF<CR>
 
 
 " mileszs/ack.vim
 
 map <C-F> :Ack<space>
 
+" arcticicestudio/nord-vim
 
-" neomake/neomake
+colorscheme nord
 
-call neomake#configure#automake('nrw')
-let g:neomake_open_list = 2
-let g:neomake_python_enabled_makers = ['pylint']
-
-
-" rakr/vim-one
-
-colorscheme one
 hi Normal guibg=NONE ctermbg=NONE
-
-set background=dark
 
 
 " scrooloose/nerdtree
@@ -156,10 +153,9 @@ let g:livedown_port = 1337
 
 " vim-airline/vim-airline
 
-let g:airline_theme='one'
+let g:airline_theme='nord'
 let g:airline_skip_empty_sections = 1
 let g:airline_section_z = airline#section#create(['windowswap', '%3p%% ', 'linenr', ':%3v'])
-
 
 " Xuyuanp/nerdtree-git-plugin
 

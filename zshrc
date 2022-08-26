@@ -1,59 +1,39 @@
-ZSH_TMUX_AUTOSTART=true
-ZSH_THEME='powerlevel10k/powerlevel10k'
+export TERM="xterm-256color"
+export ZSH="$HOME/.oh-my-zsh"
+
+ZSH_THEME="robbyrussell"
 
 plugins=(
   bundler
-  docker
-  docker-compose
   gem
   git
-  gitignore
-  pip
-  python
   rails
   rake-fast
   rbenv
   ruby
   tmux
-  vundle
-  zsh_reload
 )
 
-export PATH="/usr/local/bin:$PATH"
-
-export ZSH='/home/jonas/.oh-my-zsh'
-export TERM='xterm-256color'
-
-export FZF_DEFAULT_COMMAND='ack -g ""'
-
 source $ZSH/oh-my-zsh.sh
-source ~/powerlevel10k/powerlevel10k.zsh-theme
 
-hash -d fu="$HOME/Projects"
-hash -d fo="$HOME/Gists"
+export PATH="$PATH:$HOME/.rbenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export FZF_DEFAULT_COMMAND='ack -g ""'
+export CHROME_BIN=/usr/bin/google-chrome
 
-alias fu='~fu'
-alias fo='~fo'
+# rbenv
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
+# nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+hash -d fu="$HOME/projects"
 setopt cdablevars
 
-alias myip='curl http://ipecho.net/plain; echo'
-alias reload='src && p10k reload'
-alias rld='reload'
-alias ffs='sudo !!'
-alias cls='clear'
-alias server='python -m SimpleHTTPServer 8000'
-alias wttr='curl "en.wttr.in/?0Q"'
-alias git='hub'
-alias gdf='git diff'
-alias yolo='git commit -m "$(curl -s http://whatthecommit.com/index.txt)"'
-alias empty='git commit --allow-empty -m "$(curl -s http://whatthecommit.com/index.txt)"'
+alias git="hub"
+alias gpu=git push -u origin HEAD
 
-qr() {
-  echo $1 | curl -F-=\<- qrenco.de
-}
-
-fortune
+fortune -s
 
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
-[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
