@@ -1,0 +1,27 @@
+"$schema" = "https://starship.rs/config-schema.json"
+format = "[λ](bold 3) $directory$git_branch$git_commit$git_state$git_metrics$git_status"
+
+[directory]
+style = "4"
+read_only = ""
+
+[git_branch]
+symbol = ""
+style = "italic 8"
+
+[git_commit]
+style = "2"
+
+[git_state]
+style = "3"
+
+[git_metrics]
+added_style = "2"
+deleted_style = "1"
+disabled = false
+
+[git_status]
+ahead = "⇡${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+behind = "⇣${count}"
+style = "1"
